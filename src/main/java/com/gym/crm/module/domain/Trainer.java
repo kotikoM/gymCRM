@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class Trainer {
     private static int trainerIdCounter = 0;
-    private long id;
+    private int id;
     private TrainingType specialization;
     private long userId;
 
