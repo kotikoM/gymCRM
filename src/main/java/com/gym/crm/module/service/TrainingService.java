@@ -14,6 +14,7 @@ import java.util.Date;
 public class TrainingService {
     @Autowired
     private TrainingDAO trainingDAO;
+
     private static final Logger logger = LoggerFactory.getLogger(TrainingService.class);
 
     public void addTraining(int traineeId, int trainerId, String trainingName,

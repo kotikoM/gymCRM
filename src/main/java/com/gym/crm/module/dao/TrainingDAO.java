@@ -3,9 +3,11 @@ package com.gym.crm.module.dao;
 import com.gym.crm.module.domain.Training;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
+@Repository
 public class TrainingDAO {
     private static final Map<Integer, Training> trainingMap = new HashMap<>();
     private int trainingIdCounter = 0;

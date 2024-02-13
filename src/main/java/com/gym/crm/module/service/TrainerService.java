@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 public class TrainerService {
     @Autowired
     private TrainerDAO trainerDAO;
+
     private static final Logger logger = LoggerFactory.getLogger(TrainerService.class);
 
     public void addTrainer(TrainingType specialization, int userId) {
