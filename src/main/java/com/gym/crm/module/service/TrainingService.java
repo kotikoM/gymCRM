@@ -35,4 +35,8 @@ public class TrainingService {
         }
         return training;
     }
+
+    public void clear(){
+        this.trainingDAO.clear();
+    }
 }

@@ -39,4 +39,8 @@ public class TrainerService {
         return trainer;
     }
 
+    public void clear(){
+        this.trainerDAO.clear();
+    }
+
 }

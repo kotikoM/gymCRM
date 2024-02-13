@@ -50,4 +50,8 @@ public class TraineeDAO {
         }
         return trainee;
     }
+
+    public void clear(){
+        this.traineeMap.clear();
+    }
 }

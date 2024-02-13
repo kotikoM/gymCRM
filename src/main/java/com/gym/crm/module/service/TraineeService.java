@@ -44,4 +44,8 @@ public class TraineeService {
         }
         return trainee;
     }
+
+    public void clear(){
+        this.traineeDAO.clear();
+    }
 }

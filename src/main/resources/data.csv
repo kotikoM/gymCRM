@@ -1,0 +1,9 @@
+Trainer,BODYBUILDING,1
+Trainer,BOXING,2
+Trainer,CARDIO,3
+Trainee,2022-01-01,Address1,101
+Trainee,2022-01-02,Address2,102
+Trainee,2022-01-03,Address3,103
+Training,1,101,Training 1,BODYBUILDING,2022-02-01,60
+Training,2,102,Training 2,BOXING,2022-02-02,45
+Training,3,103,Training 3,CARDIO,2022-02-03,30

@@ -39,4 +39,8 @@ public class TrainerDAO {
         }
         return trainer;
     }
+
+    public void clear(){
+        this.trainerMap.clear();
+    }
 }

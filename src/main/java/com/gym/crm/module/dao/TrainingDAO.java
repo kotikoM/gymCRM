@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 @Repository
 public class TrainingDAO {
-    private static final Map<Integer, Training> trainingMap = new HashMap<>();
+    private final Map<Integer, Training> trainingMap = new HashMap<>();
     private int trainingIdCounter = 0;
     private static final Logger logger = LoggerFactory.getLogger(TrainingDAO.class);
 
@@ -27,5 +27,9 @@ public class TrainingDAO {
             logger.warn("Training with ID {} not found.", trainingId);
         }
         return training;
+    }
+
+    public void clear(){
+        this.trainingMap.clear();
     }
 }
