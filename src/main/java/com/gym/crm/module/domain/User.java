@@ -2,24 +2,48 @@ package com.gym.crm.module.domain;
 
 import java.security.SecureRandom;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
+@Entity
+@Table(name = "user")
 public class User {
-    private static int userIdCounter = 0;
-    private int id;
+    @Id
+    @Column(name = "id")
+    private Integer id;
+    @Column(name = "first_name")
     private String firstName;
+    @Column(name = "last_name")
     private String lastName;
+    @Column(name = "user_name")
     private String userName;
+    @Column(name = "password")
     private String password;
-    private boolean isActive;
+    @Column(name = "is_active")
+    private Boolean isActive;
 
-    public User(String firstName, String lastName, boolean isActive) {
-        this.id = generateId();
+    public User() {
+    }
+
+    public User(Integer id, String firstName, String lastName, Boolean isActive) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = generateUserName(firstName, lastName);
         this.password = generatePassword();
+        this.isActive = isActive;
+    }
+
+    public User(Integer id, String firstName, String lastName, String userName, String password, Boolean isActive) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userName = userName;
+        this.password = password;
         this.isActive = isActive;
     }
 
@@ -36,10 +60,6 @@ public class User {
         }
 
         return password.toString();
-    }
-
-    private synchronized int generateId() {
-        return userIdCounter++;
     }
 
     private String generateUserName(String firstName, String lastName) {

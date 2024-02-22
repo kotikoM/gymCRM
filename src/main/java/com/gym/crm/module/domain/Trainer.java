@@ -4,18 +4,8 @@ import lombok.Data;
 
 @Data
 public class Trainer {
-    private static int trainerIdCounter = 0;
-    private int id;
+    private Integer id;
     private TrainingType specialization;
-    private long userId;
+    private Integer userId;
 
-    public Trainer(TrainingType specialization, long userId) {
-        this.id = generateId();
-        this.specialization = specialization;
-        this.userId = userId;
-    }
-
-    private synchronized int generateId() {
-        return trainerIdCounter++;
-    }
 }

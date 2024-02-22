@@ -2,25 +2,30 @@ package com.gym.crm.module.domain;
 
 import java.util.Date;
 
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
+@Entity
+@Table(name = "trainee")
 public class Trainee {
-    private static int traineeIdCounter = 0;
-
-    private int id;
+    @Id
+    @Column(name = "id")
+    private Integer id;
+    @Column(name = "date_of_birth")
     private Date dateOfBirth;
+    @Column(name = "address")
     private String address;
-    private int userId;
+    @Column(name = "user_id")
+    private Integer userId;
 
-    public Trainee(Date dateOfBirth, String address, int userId) {
-        this.id = generateId();
+    public Trainee() {
+    }
+
+    public Trainee(Integer id, Date dateOfBirth, String address, Integer userId) {
+        this.id = id;
         this.dateOfBirth = dateOfBirth;
         this.address = address;
         this.userId = userId;
-    }
-
-    private int generateId() {
-        return traineeIdCounter++;
     }
 }

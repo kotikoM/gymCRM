@@ -1,14 +1,11 @@
 package com.gym.crm.module.domain;
 
 
-public enum TrainingType {
-    CARDIO,
-    STRENGTH,
-    BODYBUILDING,
-    FLEXIBILITY,
-    YOGA,
-    PILATES,
-    MMA,
-    BOXING
+import lombok.Data;
+
+@Data
+public class TrainingType {
+    private Integer id;
+    private String name;
 
 }
