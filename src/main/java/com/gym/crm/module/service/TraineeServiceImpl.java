@@ -5,6 +5,8 @@ import com.gym.crm.module.repository.TraineeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TraineeServiceImpl implements TraineeService{
     @Autowired
@@ -21,15 +23,28 @@ public class TraineeServiceImpl implements TraineeService{
     }
 
     @Override
-    public Trainee getTraineeByUserName(String userName, String password) {
+    public List<Trainee> getAllTrainees(String userName, String password) {
         return authorize(userName, password) ?
-                traineeRepo.getTraineeByUserName(userName) : null;
+                traineeRepo.getAllTrainees() : null;
     }
 
     @Override
     public Trainee getTraineeById(Integer id, String userName, String password) {
         return authorize(userName, password) ?
                 traineeRepo.getTraineeById(id) : null;
+    }
+
+    @Override
+    public Trainee getTraineeByUserName(String userName, String password) {
+        return authorize(userName, password) ?
+                traineeRepo.getTraineeByUserName(userName) : null;
+    }
+
+    @Override
+    public void updateTrainee(String userName, String password, Trainee trainee) {
+        if (authorize(userName, password)) {
+            traineeRepo.updateTrainee(trainee);
+        }
     }
 
     @Override

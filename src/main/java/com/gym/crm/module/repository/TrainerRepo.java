@@ -1,7 +1,6 @@
 package com.gym.crm.module.repository;
 
-import com.gym.crm.module.domain.User;
-import com.gym.crm.module.domain.Trainee;
+import com.gym.crm.module.domain.Trainer;
 import jakarta.persistence.TypedQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,50 +10,50 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class TraineeRepo extends com.gym.crm.module.repository.Repository {
+public class TrainerRepo extends com.gym.crm.module.repository.Repository {
 
-    public List<Trainee> getAllTrainees() {
+    public List<Trainer> getAllTrainers() {
         return sessionFactory.openSession()
-                .createQuery("SELECT t FROM Trainee t", Trainee.class)
+                .createQuery("SELECT t FROM Trainer t", Trainer.class)
                 .getResultList();
     }
 
-    public Trainee getTraineeById(Integer traineeId) {
+    public Trainer getTrainerById(Integer trainerId) {
         return sessionFactory.openSession()
-                .get(Trainee.class, traineeId);
+                .get(Trainer.class, trainerId);
     }
 
-    public Trainee getTraineeByUserName(String userName) {
+    public Trainer getTrainerByUserName(String userName) {
         try (Session session = sessionFactory.openSession()) {
-            TypedQuery<Trainee> query = session.createQuery(
-                    "SELECT t FROM Trainee t WHERE t.userId = " +
+            TypedQuery<Trainer> query = session.createQuery(
+                    "SELECT t FROM Trainer t WHERE t.userId = " +
                             "(SELECT u.id FROM User u WHERE u.userName = :userName)",
-                    Trainee.class);
+                    Trainer.class);
             query.setParameter("userName", userName);
 
             return query.getSingleResult();
         }
     }
 
-    public Trainee createTrainee(Trainee trainee) {
+    public Trainer createTrainer(Trainer trainer) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            Integer traineeId = (Integer) session.save(trainee);
+            Integer trainerId = (Integer) session.save(trainer);
             session.getTransaction().commit();
-            return getTraineeById(traineeId);
+            return getTrainerById(trainerId);
         }
     }
 
-    public void updateTrainee(Trainee trainee) {
+    public void updateTrainer(Trainer trainer) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.update(trainee);
+            session.update(trainer);
             session.getTransaction().commit();
         }
     }
 
     public boolean authorize(String userName, String password) {
-        Trainee trainee = getTraineeByUserName(userName);
-        return trainee != null && checkPassword(userName, password);
+        Trainer trainer = getTrainerByUserName(userName);
+        return trainer != null && checkPassword(userName, password);
     }
 }
