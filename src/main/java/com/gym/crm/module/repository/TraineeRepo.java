@@ -3,6 +3,7 @@ package com.gym.crm.module.repository;
 import com.gym.crm.module.domain.User;
 import com.gym.crm.module.domain.Trainee;
 import jakarta.persistence.TypedQuery;
+import lombok.val;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,18 @@ public class TraineeRepo extends com.gym.crm.module.repository.Repository {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.update(trainee);
+            session.getTransaction().commit();
+        }
+    }
+
+    public void deleteTrainee(String userName) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            Trainee trainee = getTraineeByUserName(userName);
+            if (trainee != null) {
+                trainee = session.get(Trainee.class, trainee.getId());
+                session.delete(trainee);
+            }
             session.getTransaction().commit();
         }
     }

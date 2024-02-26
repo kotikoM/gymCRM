@@ -1,17 +1,44 @@
 package com.gym.crm.module.domain;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
+@Entity
+@Table(name = "training")
 public class Training {
+    @Id
+    @Column(name = "id")
     private Integer id;
+    @Column(name = "trainee_id")
     private Integer traineeId;
+    @Column(name = "trainer_id")
     private Integer trainerId;
-    private String trainingName;
+    @Column(name = "name")
+    private String name;
+    @Column(name = "training_type_id")
     private Integer trainingTypeId;
-    private Date trainingDate;
-    private Number trainingDuration;
+    @Column(name = "date")
+    private Date date;
+    @Column(name = "duration")
+    private Integer duration;
 
+    public Training() {
+    }
+
+    public Training(Integer id, Integer traineeId, Integer trainerId,
+                    String name, Integer trainingTypeId, Date date, Integer duration) {
+        this.id = id;
+        this.traineeId = traineeId;
+        this.trainerId = trainerId;
+        this.name = name;
+        this.trainingTypeId = trainingTypeId;
+        this.date = date;
+        this.duration = duration;
+    }
 }

@@ -35,6 +35,20 @@ public class TrainerRepo extends com.gym.crm.module.repository.Repository {
         }
     }
 
+    public List<Trainer> getUnassignedTrainers(String traineeUsername) {
+        try (Session session = sessionFactory.openSession()) {
+            String hql = "SELECT tra FROM Trainer tra WHERE tra.id NOT IN " +
+                            "(SELECT t.trainerId FROM Training t WHERE t.traineeId = " +
+                                "(SELECT tr.id FROM Trainee tr WHERE tr.userId = " +
+                                    "(SELECT u.id FROM User u WHERE u.userName = :traineeUsername)))";
+
+            TypedQuery<Trainer> query = session.createQuery(hql, Trainer.class);
+            query.setParameter("traineeUsername", traineeUsername);
+
+            return query.getResultList();
+        }
+    }
+
     public Trainer createTrainer(Trainer trainer) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
