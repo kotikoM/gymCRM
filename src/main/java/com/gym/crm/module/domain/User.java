@@ -2,10 +2,7 @@ package com.gym.crm.module.domain;
 
 import java.security.SecureRandom;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
@@ -13,6 +10,7 @@ import lombok.Data;
 @Table(name = "user")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
     @Column(name = "first_name")
@@ -29,6 +27,14 @@ public class User {
     public User() {
     }
 
+    public User(String firstName, String lastName) {
+        this.id = null;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userName = generateUserName(firstName, lastName);
+        this.password = generatePassword();
+        this.isActive = true;
+    }
     public User(Integer id, String firstName, String lastName, Boolean isActive) {
         this.id = id;
         this.firstName = firstName;

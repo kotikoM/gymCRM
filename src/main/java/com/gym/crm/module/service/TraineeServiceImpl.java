@@ -1,5 +1,6 @@
 package com.gym.crm.module.service;
 
+import com.gym.crm.module.DTO.TraineeRegistrationResponseDTO;
 import com.gym.crm.module.domain.Trainee;
 import com.gym.crm.module.repository.TraineeRepo;
 import org.slf4j.Logger;
@@ -7,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -19,8 +21,11 @@ public class TraineeServiceImpl implements TraineeService {
 
     @Override
     public Trainee createTrainee(Trainee trainee) {
-        logger.info("Creating new trainee: {}", trainee);
         return traineeRepo.createTrainee(trainee);
+    }
+
+    public TraineeRegistrationResponseDTO createTrainee(String firstName, String lastName, Date dateOfBirth, String address) {
+        return traineeRepo.createTrainee(firstName, lastName, dateOfBirth, address);
     }
 
     @Override

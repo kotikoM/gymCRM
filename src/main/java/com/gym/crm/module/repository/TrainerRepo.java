@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class TrainerRepo extends com.gym.crm.module.repository.Repository {
+public class TrainerRepo extends UserRepo {
 
     private static final Logger logger = LoggerFactory.getLogger(TrainerRepo.class);
 

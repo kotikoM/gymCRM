@@ -10,6 +10,7 @@ import lombok.Data;
 @Table(name = "trainee")
 public class Trainee {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
     @Column(name = "date_of_birth")
@@ -20,6 +21,13 @@ public class Trainee {
     private Integer userId;
 
     public Trainee() {
+    }
+
+    public Trainee(Date dateOfBirth, String address, Integer userId) {
+        this.id = null;
+        this.dateOfBirth = dateOfBirth;
+        this.address = address;
+        this.userId = userId;
     }
 
     public Trainee(Integer id, Date dateOfBirth, String address, Integer userId) {

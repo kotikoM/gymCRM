@@ -1,16 +1,19 @@
 package com.gym.crm.module.repository;
 
+import com.gym.crm.module.DTO.TraineeRegistrationResponseDTO;
 import com.gym.crm.module.domain.Trainee;
+import com.gym.crm.module.domain.User;
 import jakarta.persistence.TypedQuery;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
-public class TraineeRepo extends com.gym.crm.module.repository.Repository {
+public class TraineeRepo extends UserRepo {
 
     private static final Logger logger = LoggerFactory.getLogger(TraineeRepo.class);
 
@@ -53,6 +56,17 @@ public class TraineeRepo extends com.gym.crm.module.repository.Repository {
             session.getTransaction().commit();
             logger.info("Trainee created successfully with ID: {}", traineeId);
             return getTraineeById(traineeId);
+        }
+    }
+
+    public TraineeRegistrationResponseDTO createTrainee(String firstName, String lastName, Date dateOfBirth, String address) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            User user = createUser(firstName, lastName);
+            Trainee trainee = new Trainee(dateOfBirth, address, user.getId());
+            session.save(trainee);
+            session.getTransaction().commit();
+            return new TraineeRegistrationResponseDTO(user.getUserName(), user.getPassword());
         }
     }
 

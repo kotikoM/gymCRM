@@ -1,7 +1,9 @@
 package com.gym.crm.module.service;
 
+import com.gym.crm.module.DTO.TraineeRegistrationResponseDTO;
 import com.gym.crm.module.domain.Trainee;
 
+import java.util.Date;
 import java.util.List;
 
 public interface TraineeService {

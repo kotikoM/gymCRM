@@ -7,13 +7,45 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-@org.springframework.stereotype.Repository
-public class Repository {
-    private static final Logger logger = LoggerFactory.getLogger(Repository.class);
+@Repository
+public class UserRepo {
+    private static final Logger logger = LoggerFactory.getLogger(UserRepo.class);
 
     @Autowired
     protected SessionFactory sessionFactory;
+
+    public User getUserById(Integer userId) {
+        return sessionFactory.openSession()
+                .get(User.class, userId);
+    }
+
+    public User createuser(User user) {
+        try (Session session = sessionFactory.openSession()) {
+            logger.info("Creating new user: {}", user);
+            session.beginTransaction();
+            Integer userId = (Integer) session.save(user);
+            session.getTransaction().commit();
+            logger.info("User created successfully with ID: {}", userId);
+            return getUserById(userId);
+        }
+    }
+    public User createUser(Integer id, String firstName, String lastName, Boolean isActive) {
+        User user = new User(id, firstName, lastName, isActive);
+        try (Session session = sessionFactory.openSession()) {
+            logger.info("Creating new user: {}", user);
+            session.beginTransaction();
+            Integer userId = (Integer) session.save(user);
+            session.getTransaction().commit();
+            logger.info("User created successfully with ID: {}", userId);
+            return getUserById(userId);
+        }
+    }
+
+    public User createUser(String firstName, String lastName) {
+        return createUser(null, firstName, lastName, true);
+    }
 
     public void updatePassword(String userName, String newPassword) {
         try (Session session = sessionFactory.openSession()) {
