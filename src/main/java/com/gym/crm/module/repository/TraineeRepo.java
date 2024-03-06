@@ -1,6 +1,6 @@
 package com.gym.crm.module.repository;
 
-import com.gym.crm.module.DTO.TraineeRegistrationResponseDTO;
+import com.gym.crm.module.DTO.RegistrationResponseDTO;
 import com.gym.crm.module.domain.Trainee;
 import com.gym.crm.module.domain.User;
 import jakarta.persistence.TypedQuery;
@@ -59,14 +59,14 @@ public class TraineeRepo extends UserRepo {
         }
     }
 
-    public TraineeRegistrationResponseDTO createTrainee(String firstName, String lastName, Date dateOfBirth, String address) {
+    public RegistrationResponseDTO registerTrainee(String firstName, String lastName, Date dateOfBirth, String address) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             User user = createUser(firstName, lastName);
             Trainee trainee = new Trainee(dateOfBirth, address, user.getId());
             session.save(trainee);
             session.getTransaction().commit();
-            return new TraineeRegistrationResponseDTO(user.getUserName(), user.getPassword());
+            return new RegistrationResponseDTO(user.getUserName(), user.getPassword());
         }
     }
 
@@ -101,4 +101,5 @@ public class TraineeRepo extends UserRepo {
         logger.info("Authorization result: {}", isAuthorized);
         return isAuthorized;
     }
+
 }

@@ -1,6 +1,8 @@
 package com.gym.crm.module.repository;
 
+import com.gym.crm.module.DTO.RegistrationResponseDTO;
 import com.gym.crm.module.domain.Trainer;
+import com.gym.crm.module.domain.User;
 import jakarta.persistence.TypedQuery;
 import org.hibernate.Session;
 import org.slf4j.Logger;
@@ -62,6 +64,23 @@ public class TrainerRepo extends UserRepo {
         }
     }
 
+    public List<Trainer> getTraineeTrainers(String username) {
+        try (Session session = sessionFactory.openSession()) {
+            logger.info("Getting trainee trainers: {}", username);
+            String hql = "SELECT tra FROM Trainer tra WHERE tra.id IN " +
+                    "(SELECT t.trainerId FROM Training t WHERE t.traineeId = " +
+                    "(SELECT tr.id FROM Trainee tr WHERE tr.userId = " +
+                    "(SELECT u.id FROM User u WHERE u.userName = :username)))";
+
+            TypedQuery<Trainer> query = session.createQuery(hql, Trainer.class);
+            query.setParameter("username", username);
+
+            List<Trainer> unassignedTrainers = query.getResultList();
+            logger.info("Retrieved {} unassigned trainers", unassignedTrainers.size());
+            return unassignedTrainers;
+        }
+    }
+
     public Trainer createTrainer(Trainer trainer) {
         try (Session session = sessionFactory.openSession()) {
             logger.info("Creating new trainer: {}", trainer);
@@ -70,6 +89,17 @@ public class TrainerRepo extends UserRepo {
             session.getTransaction().commit();
             logger.info("Trainer created successfully with ID: {}", trainerId);
             return getTrainerById(trainerId);
+        }
+    }
+
+    public RegistrationResponseDTO registerTrainer(String firstName, String lastName, Integer trainingTypeId) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            User user = createUser(firstName, lastName);
+            Trainer trainer = new Trainer(trainingTypeId, user.getId());
+            session.save(trainer);
+            session.getTransaction().commit();
+            return new RegistrationResponseDTO(user.getUserName(), user.getPassword());
         }
     }
 

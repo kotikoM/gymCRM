@@ -21,18 +21,7 @@ public class UserRepo {
                 .get(User.class, userId);
     }
 
-    public User createuser(User user) {
-        try (Session session = sessionFactory.openSession()) {
-            logger.info("Creating new user: {}", user);
-            session.beginTransaction();
-            Integer userId = (Integer) session.save(user);
-            session.getTransaction().commit();
-            logger.info("User created successfully with ID: {}", userId);
-            return getUserById(userId);
-        }
-    }
-    public User createUser(Integer id, String firstName, String lastName, Boolean isActive) {
-        User user = new User(id, firstName, lastName, isActive);
+    public User createUser(User user) {
         try (Session session = sessionFactory.openSession()) {
             logger.info("Creating new user: {}", user);
             session.beginTransaction();
@@ -43,8 +32,25 @@ public class UserRepo {
         }
     }
 
+    public User createUser(Integer id, String firstName, String lastName, Boolean isActive) {
+        User user = new User(id, firstName, lastName, isActive);
+        return createUser(user);
+    }
+
     public User createUser(String firstName, String lastName) {
         return createUser(null, firstName, lastName, true);
+    }
+
+    public User getUserProfile(String userName) {
+        try (Session session = sessionFactory.openSession()) {
+            TypedQuery<User> query = session.createQuery(
+                    "SELECT u FROM User u WHERE u.userName = :userName",
+                    User.class);
+            query.setParameter("userName", userName);
+            User user = query.getSingleResult();
+            user.setPassword(null);
+            return user;
+        }
     }
 
     public void updatePassword(String userName, String newPassword) {
@@ -82,7 +88,7 @@ public class UserRepo {
         }
     }
 
-    public boolean checkPassword(String userName, String password) {
+    public Boolean checkPassword(String userName, String password) {
         try (Session session = sessionFactory.openSession()) {
             logger.info("Checking password for user: {}", userName);
             TypedQuery<User> query = session.createQuery(

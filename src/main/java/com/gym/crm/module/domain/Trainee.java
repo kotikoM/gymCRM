@@ -3,11 +3,16 @@ package com.gym.crm.module.domain;
 import java.util.Date;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data
+
 @Entity
 @Table(name = "trainee")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Trainee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,18 +25,8 @@ public class Trainee {
     @Column(name = "user_id")
     private Integer userId;
 
-    public Trainee() {
-    }
-
     public Trainee(Date dateOfBirth, String address, Integer userId) {
         this.id = null;
-        this.dateOfBirth = dateOfBirth;
-        this.address = address;
-        this.userId = userId;
-    }
-
-    public Trainee(Integer id, Date dateOfBirth, String address, Integer userId) {
-        this.id = id;
         this.dateOfBirth = dateOfBirth;
         this.address = address;
         this.userId = userId;

@@ -1,40 +1,47 @@
 package com.gym.crm.module.service;
 
-import com.gym.crm.module.DTO.TraineeRegistrationResponseDTO;
+import com.gym.crm.module.DTO.RegistrationResponseDTO;
 import com.gym.crm.module.domain.Trainee;
+import com.gym.crm.module.domain.Trainer;
+import com.gym.crm.module.domain.User;
 import com.gym.crm.module.repository.TraineeRepo;
+import com.gym.crm.module.repository.TrainerRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
-public class TraineeServiceImpl implements TraineeService {
+public class TraineeServiceImpl {
 
     private static final Logger logger = LoggerFactory.getLogger(TraineeServiceImpl.class);
 
     @Autowired
     private TraineeRepo traineeRepo;
 
-    @Override
+    @Autowired
+    private TrainerRepo trainerRepo;
+
+
     public Trainee createTrainee(Trainee trainee) {
         return traineeRepo.createTrainee(trainee);
     }
 
-    public TraineeRegistrationResponseDTO createTrainee(String firstName, String lastName, Date dateOfBirth, String address) {
-        return traineeRepo.createTrainee(firstName, lastName, dateOfBirth, address);
+    public RegistrationResponseDTO registerTrainee(String firstName, String lastName, Date dateOfBirth, String address) {
+        return traineeRepo.registerTrainee(firstName, lastName, dateOfBirth, address);
     }
 
-    @Override
+
     public boolean authorize(String userName, String password) {
         logger.info("Authorizing user with username: {}", userName);
         return traineeRepo.authorize(userName, password);
     }
 
-    @Override
     public List<Trainee> getAllTrainees(String userName, String password) {
         if (authorize(userName, password)) {
             logger.info("Getting all trainees");
@@ -45,7 +52,6 @@ public class TraineeServiceImpl implements TraineeService {
         }
     }
 
-    @Override
     public Trainee getTraineeById(Integer id, String userName, String password) {
         if (authorize(userName, password)) {
             logger.info("Getting trainee by ID: {}", id);
@@ -56,7 +62,7 @@ public class TraineeServiceImpl implements TraineeService {
         }
     }
 
-    @Override
+
     public Trainee getTraineeByUserName(String userName, String password) {
         if (authorize(userName, password)) {
             logger.info("Getting trainee by username: {}", userName);
@@ -67,7 +73,16 @@ public class TraineeServiceImpl implements TraineeService {
         }
     }
 
-    @Override
+    public Map<String, Object> getTraineeProfile(String username) {
+        Map<String, Object> response = new HashMap<>();
+
+        User user = traineeRepo.getUserProfile(username);
+        response.put("profile", user);
+        List<Trainer> trainers = trainerRepo.getTraineeTrainers(username);
+        response.put("trainers", trainers);
+        return response;
+    }
+
     public void updateTrainee(String userName, String password, Trainee trainee) {
         if (authorize(userName, password)) {
             logger.info("Updating trainee: {}", trainee);
@@ -77,7 +92,6 @@ public class TraineeServiceImpl implements TraineeService {
         }
     }
 
-    @Override
     public void updatePassword(String userName, String oldPassword, String newPassword) {
         if (authorize(userName, oldPassword)) {
             logger.info("Updating password for user: {}", userName);
@@ -87,7 +101,6 @@ public class TraineeServiceImpl implements TraineeService {
         }
     }
 
-    @Override
     public void updateIsActive(String userName, String password, boolean isActive) {
         if (authorize(userName, password)) {
             logger.info("Updating isActive status for user: {}", userName);

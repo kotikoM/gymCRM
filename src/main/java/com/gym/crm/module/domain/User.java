@@ -3,11 +3,16 @@ package com.gym.crm.module.domain;
 import java.security.SecureRandom;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data
+
 @Entity
 @Table(name = "user")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,9 +29,6 @@ public class User {
     @Column(name = "is_active")
     private Boolean isActive;
 
-    public User() {
-    }
-
     public User(String firstName, String lastName) {
         this.id = null;
         this.firstName = firstName;
@@ -41,15 +43,6 @@ public class User {
         this.lastName = lastName;
         this.userName = generateUserName(firstName, lastName);
         this.password = generatePassword();
-        this.isActive = isActive;
-    }
-
-    public User(Integer id, String firstName, String lastName, String userName, String password, Boolean isActive) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.userName = userName;
-        this.password = password;
         this.isActive = isActive;
     }
 

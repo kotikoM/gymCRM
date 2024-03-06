@@ -1,13 +1,17 @@
 package com.gym.crm.module.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-@Data
 @Entity
 @Table(name = "training")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Training {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,18 +29,4 @@ public class Training {
     private Date date;
     @Column(name = "duration")
     private Integer duration;
-
-    public Training() {
-    }
-
-    public Training(Integer id, Integer traineeId, Integer trainerId,
-                    String name, Integer trainingTypeId, Date date, Integer duration) {
-        this.id = id;
-        this.traineeId = traineeId;
-        this.trainerId = trainerId;
-        this.name = name;
-        this.trainingTypeId = trainingTypeId;
-        this.date = date;
-        this.duration = duration;
-    }
 }
