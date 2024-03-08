@@ -30,7 +30,6 @@ public class User {
     private Boolean isActive;
 
     public User(String firstName, String lastName) {
-        this.id = null;
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = generateUserName(firstName, lastName);

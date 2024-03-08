@@ -1,5 +1,6 @@
 package com.gym.crm.module.repository;
 
+import com.gym.crm.module.domain.Trainee;
 import com.gym.crm.module.domain.User;
 import jakarta.persistence.TypedQuery;
 import org.hibernate.Session;
@@ -19,6 +20,16 @@ public class UserRepo {
     public User getUserById(Integer userId) {
         return sessionFactory.openSession()
                 .get(User.class, userId);
+    }
+
+    public User getUserByUsername(String userName) {
+        try (Session session = sessionFactory.openSession()) {
+            TypedQuery<User> query = session.createQuery(
+                    "SELECT u FROM User u WHERE u.userName = :userName",
+                    User.class);
+            query.setParameter("userName", userName);
+            return query.getSingleResult();
+        }
     }
 
     public User createUser(User user) {
@@ -50,6 +61,14 @@ public class UserRepo {
             User user = query.getSingleResult();
             user.setPassword(null);
             return user;
+        }
+    }
+
+    public void updateUser(User user) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.update(user);
+            session.getTransaction().commit();
         }
     }
 

@@ -5,10 +5,7 @@ import com.gym.crm.module.service.TraineeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.Map;
@@ -32,6 +29,25 @@ public class TraineeController {
     @GetMapping("/profile")
     public ResponseEntity<Map<String, Object>> getTraineeProfile(@RequestParam String username) {
         Map<String, Object> response = traineeService.getTraineeProfile(username);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Void > deleteTrainee(@RequestParam String username) {
+        traineeService.deleteTrainee(username);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping
+    public ResponseEntity<Map<String, Object>> updateTraineeProfile(
+            @RequestParam String userName,
+            @RequestParam String firstName,
+            @RequestParam String lastName,
+            @RequestParam Date dateOfBirth,
+            @RequestParam String address,
+            @RequestParam Boolean isActive) {
+        traineeService.updateTrainee(userName, firstName, lastName, dateOfBirth, address, isActive);
+        Map<String, Object> response = traineeService.getTraineeProfile(userName);
         return ResponseEntity.ok(response);
     }
 }

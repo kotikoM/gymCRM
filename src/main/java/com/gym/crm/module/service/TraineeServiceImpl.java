@@ -36,12 +36,6 @@ public class TraineeServiceImpl {
         return traineeRepo.registerTrainee(firstName, lastName, dateOfBirth, address);
     }
 
-
-    public boolean authorize(String userName, String password) {
-        logger.info("Authorizing user with username: {}", userName);
-        return traineeRepo.authorize(userName, password);
-    }
-
     public List<Trainee> getAllTrainees(String userName, String password) {
         if (authorize(userName, password)) {
             logger.info("Getting all trainees");
@@ -83,13 +77,16 @@ public class TraineeServiceImpl {
         return response;
     }
 
-    public void updateTrainee(String userName, String password, Trainee trainee) {
-        if (authorize(userName, password)) {
-            logger.info("Updating trainee: {}", trainee);
-            traineeRepo.updateTrainee(trainee);
-        } else {
-            logger.warn("Unauthorized access. User: {}", userName);
-        }
+    public void updateTrainee(String userName, String firstName, String lastName, Date dateOfBirth, String address, Boolean isActive) {
+        User user = traineeRepo.getUserByUsername(userName);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setIsActive(isActive);
+        Trainee trainee = traineeRepo.getTraineeByUserName(userName);
+        trainee.setDateOfBirth(dateOfBirth);
+        trainee.setAddress(address);
+        traineeRepo.updateUser(user);
+        traineeRepo.updateTrainee(trainee);
     }
 
     public void updatePassword(String userName, String oldPassword, String newPassword) {
@@ -108,5 +105,14 @@ public class TraineeServiceImpl {
         } else {
             logger.warn("Unauthorized access. User: {}", userName);
         }
+    }
+
+    public void deleteTrainee(String userName) {
+        traineeRepo.deleteTrainee(userName);
+    }
+
+    public boolean authorize(String userName, String password) {
+        logger.info("Authorizing user with username: {}", userName);
+        return traineeRepo.authorize(userName, password);
     }
 }
