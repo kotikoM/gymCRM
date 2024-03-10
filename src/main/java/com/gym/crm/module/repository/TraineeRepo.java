@@ -1,8 +1,8 @@
 package com.gym.crm.module.repository;
 
 import com.gym.crm.module.DTO.RegistrationResponseDTO;
-import com.gym.crm.module.domain.Trainee;
-import com.gym.crm.module.domain.User;
+import com.gym.crm.module.entity.Trainee;
+import com.gym.crm.module.entity.User;
 import jakarta.persistence.TypedQuery;
 import org.hibernate.Session;
 import org.slf4j.Logger;
@@ -45,6 +45,23 @@ public class TraineeRepo extends UserRepo {
             Trainee trainee = query.getSingleResult();
             logger.info("Retrieved trainee: {}", trainee);
             return trainee;
+        }
+    }
+
+    public List<Trainee> getTrainerTrainees(String username) {
+        try (Session session = sessionFactory.openSession()) {
+            logger.info("Getting trainer trainees: {}", username);
+            String hql = "SELECT tra FROM Trainee tra WHERE tra.id IN " +
+                    "(SELECT t.traineeId FROM Training t WHERE t.trainerId = " +
+                    "(SELECT tr.id FROM Trainer tr WHERE tr.userId = " +
+                    "(SELECT u.id FROM User u WHERE u.userName = :username)))";
+
+            TypedQuery<Trainee> query = session.createQuery(hql, Trainee.class);
+            query.setParameter("username", username);
+
+            List<Trainee> trainees = query.getResultList();
+            logger.info("Retrieved {} trainers trainees", trainees.size());
+            return trainees;
         }
     }
 

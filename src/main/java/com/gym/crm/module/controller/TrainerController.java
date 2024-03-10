@@ -1,13 +1,15 @@
 package com.gym.crm.module.controller;
 
 import com.gym.crm.module.DTO.RegistrationResponseDTO;
-import com.gym.crm.module.service.TrainerServiceImpl;
+import com.gym.crm.module.entity.Trainer;
+import com.gym.crm.module.service.impl.TrainerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/trainer")
@@ -24,4 +26,33 @@ public class TrainerController {
         return ResponseEntity.ok(dto);
     }
 
+    @GetMapping("/profile")
+    public ResponseEntity<Map<String, Object>> getTrainerProfile(@RequestParam String username) {
+        Map<String, Object> response = trainerService.getTrainerProfile(username);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/unassigned")
+    public ResponseEntity<List<Trainer>> getUnassignedTrainers(@RequestParam String traineeUsername) {
+        List<Trainer> trainers = trainerService.getUnassignedTrainers(traineeUsername);
+        return ResponseEntity.ok(trainers);
+    }
+
+    @PutMapping
+    public ResponseEntity<Map<String, Object>> updateTrainerProfile(
+            @RequestParam String userName,
+            @RequestParam String firstName,
+            @RequestParam String lastName,
+            @RequestParam Integer specialization,
+            @RequestParam Boolean isActive) {
+        trainerService.updateTrainer(userName, firstName, lastName, specialization, isActive);
+        Map<String, Object> trainerProfile = trainerService.getTrainerProfile(userName);
+        return ResponseEntity.ok(trainerProfile);
+    }
+
+    @PatchMapping("/activation")
+    public ResponseEntity<Void> activateTrainer(@RequestParam String username, @RequestParam Boolean isActive) {
+        trainerService.updateIsActive(username, isActive);
+        return ResponseEntity.ok().build();
+    }
 }

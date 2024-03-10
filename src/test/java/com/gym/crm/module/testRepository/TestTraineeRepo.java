@@ -1,6 +1,6 @@
 package com.gym.crm.module.testRepository;
 
-import com.gym.crm.module.domain.Trainee;
+import com.gym.crm.module.entity.Trainee;
 import com.gym.crm.module.repository.TraineeRepo;
 import jakarta.persistence.TypedQuery;
 import org.hibernate.Session;

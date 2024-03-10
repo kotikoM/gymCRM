@@ -1,8 +1,7 @@
 package com.gym.crm.module.testRepository;
 
 
-import com.gym.crm.module.controller.UserController;
-import com.gym.crm.module.domain.Trainer;
+import com.gym.crm.module.entity.Trainer;
 import com.gym.crm.module.repository.TraineeRepo;
 import com.gym.crm.module.repository.TrainerRepo;
 import com.gym.crm.module.repository.UserRepo;

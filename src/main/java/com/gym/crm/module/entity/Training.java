@@ -1,4 +1,4 @@
-package com.gym.crm.module.domain;
+package com.gym.crm.module.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

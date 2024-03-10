@@ -1,7 +1,6 @@
 package com.gym.crm.module.repository;
 
-import com.gym.crm.module.domain.Trainee;
-import com.gym.crm.module.domain.User;
+import com.gym.crm.module.entity.User;
 import jakarta.persistence.TypedQuery;
 import org.hibernate.Session;
 import org.slf4j.Logger;

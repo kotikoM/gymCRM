@@ -1,7 +1,7 @@
 package com.gym.crm.module.controller;
 
 import com.gym.crm.module.DTO.RegistrationResponseDTO;
-import com.gym.crm.module.service.TraineeServiceImpl;
+import com.gym.crm.module.service.impl.TraineeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -49,5 +49,11 @@ public class TraineeController {
         traineeService.updateTrainee(userName, firstName, lastName, dateOfBirth, address, isActive);
         Map<String, Object> response = traineeService.getTraineeProfile(userName);
         return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/activation")
+    public ResponseEntity<Void> activateTrainee(@RequestParam String username, @RequestParam Boolean isActive) {
+        traineeService.updateIsActive(username, isActive);
+        return ResponseEntity.ok().build();
     }
 }

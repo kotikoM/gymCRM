@@ -1,6 +1,6 @@
 package com.gym.crm.module.controller;
 
-import com.gym.crm.module.service.UserServiceImpl;
+import com.gym.crm.module.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

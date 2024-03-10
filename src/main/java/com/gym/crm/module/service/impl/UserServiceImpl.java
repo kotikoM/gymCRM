@@ -1,4 +1,4 @@
-package com.gym.crm.module.service;
+package com.gym.crm.module.service.impl;
 
 import com.gym.crm.module.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;

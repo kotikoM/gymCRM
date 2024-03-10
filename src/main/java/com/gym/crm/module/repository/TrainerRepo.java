@@ -1,8 +1,8 @@
 package com.gym.crm.module.repository;
 
 import com.gym.crm.module.DTO.RegistrationResponseDTO;
-import com.gym.crm.module.domain.Trainer;
-import com.gym.crm.module.domain.User;
+import com.gym.crm.module.entity.Trainer;
+import com.gym.crm.module.entity.User;
 import jakarta.persistence.TypedQuery;
 import org.hibernate.Session;
 import org.slf4j.Logger;
@@ -75,9 +75,9 @@ public class TrainerRepo extends UserRepo {
             TypedQuery<Trainer> query = session.createQuery(hql, Trainer.class);
             query.setParameter("username", username);
 
-            List<Trainer> unassignedTrainers = query.getResultList();
-            logger.info("Retrieved {} unassigned trainers", unassignedTrainers.size());
-            return unassignedTrainers;
+            List<Trainer> trainers = query.getResultList();
+            logger.info("Retrieved {} trainee trainers", trainers.size());
+            return trainers;
         }
     }
 
