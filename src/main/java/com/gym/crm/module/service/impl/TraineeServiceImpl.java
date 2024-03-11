@@ -5,6 +5,7 @@ import com.gym.crm.module.entity.Trainee;
 import com.gym.crm.module.entity.Trainer;
 import com.gym.crm.module.entity.User;
 import com.gym.crm.module.repository.RepositoryManager;
+import com.gym.crm.module.service.TraineeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class TraineeServiceImpl {
+public class TraineeServiceImpl implements TraineeService {
 
     private static final Logger logger = LoggerFactory.getLogger(TraineeServiceImpl.class);
     
@@ -25,21 +26,18 @@ public class TraineeServiceImpl {
 
 
     public Trainee createTrainee(Trainee trainee) {
+        logger.info("Creating trainee...");
         return repositoryManager.traineeRepo.createTrainee(trainee);
     }
 
     public RegistrationResponseDTO registerTrainee(String firstName, String lastName, Date dateOfBirth, String address) {
+        logger.info("Registering trainee...");
         return repositoryManager.traineeRepo.registerTrainee(firstName, lastName, dateOfBirth, address);
     }
 
-    public List<Trainee> getAllTrainees(String userName, String password) {
-        if (authorize(userName, password)) {
-            logger.info("Getting all trainees");
-            return repositoryManager.traineeRepo.getAllTrainees();
-        } else {
-            logger.warn("Unauthorized access. User: {}", userName);
-            return null;
-        }
+    public List<Trainee> getAllTrainees(String userName) {
+        logger.info("Getting all trainees");
+        return repositoryManager.traineeRepo.getAllTrainees();
     }
 
     public Trainee getTraineeById(Integer id, String userName, String password) {
@@ -69,6 +67,7 @@ public class TraineeServiceImpl {
         response.put("profile", user);
         List<Trainer> trainers = repositoryManager.trainerRepo.getTraineeTrainers(username);
         response.put("trainers", trainers);
+        logger.info("Trainee profile information fetched");
         return response;
     }
     public void updateTrainee(String userName, String firstName, String lastName, Date dateOfBirth, String address, Boolean isActive) {
@@ -81,6 +80,7 @@ public class TraineeServiceImpl {
         trainee.setAddress(address);
         repositoryManager.traineeRepo.updateUser(user);
         repositoryManager.traineeRepo.updateTrainee(trainee);
+        logger.info("Trainee profile updated");
     }
 
     public void updatePassword(String userName, String oldPassword, String newPassword) {
@@ -101,7 +101,7 @@ public class TraineeServiceImpl {
         repositoryManager.traineeRepo.deleteTrainee(userName);
     }
 
-    public boolean authorize(String userName, String password) {
+    public Boolean authorize(String userName, String password) {
         logger.info("Authorizing user with username: {}", userName);
         return repositoryManager.traineeRepo.authorize(userName, password);
     }

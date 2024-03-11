@@ -2,6 +2,7 @@ package com.gym.crm.module.service.impl;
 
 import com.gym.crm.module.entity.Training;
 import com.gym.crm.module.repository.RepositoryManager;
+import com.gym.crm.module.service.TrainingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class TrainingServiceImpl {
+public class TrainingServiceImpl implements TrainingService {
 
     private static final Logger logger = LoggerFactory.getLogger(TrainingServiceImpl.class);
 
@@ -26,6 +27,7 @@ public class TrainingServiceImpl {
     }
 
     public List<Training> getAllTrainings() {
+        logger.info("Fetching all trainings...");
         return repositoryManager.trainingRepo.getAllTrainings();
     }
 

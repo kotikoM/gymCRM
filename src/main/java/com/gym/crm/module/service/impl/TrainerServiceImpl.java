@@ -5,6 +5,7 @@ import com.gym.crm.module.entity.Trainee;
 import com.gym.crm.module.entity.Trainer;
 import com.gym.crm.module.entity.User;
 import com.gym.crm.module.repository.RepositoryManager;
+import com.gym.crm.module.service.TrainerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class TrainerServiceImpl {
+public class TrainerServiceImpl implements TrainerService {
 
     private static final Logger logger = LoggerFactory.getLogger(TrainerServiceImpl.class);
 
@@ -33,20 +34,9 @@ public class TrainerServiceImpl {
     }
 
 
-    public boolean authorize(String userName, String password) {
-        logger.info("Authorizing user with username: {}", userName);
-        return repositoryManager.trainerRepo.authorize(userName, password);
-    }
-
-
-    public List<Trainer> getAllTrainers(String userName, String password) {
-        if (authorize(userName, password)) {
-            logger.info("Getting all trainers");
-            return repositoryManager.trainerRepo.getAllTrainers();
-        } else {
-            logger.warn("Unauthorized access. User: {}", userName);
-            return null;
-        }
+    public List<Trainer> getAllTrainers(String userName) {
+        logger.info("Getting all trainers");
+        return repositoryManager.trainerRepo.getAllTrainers();
     }
 
 
@@ -112,5 +102,10 @@ public class TrainerServiceImpl {
     public void updateIsActive(String userName, Boolean isActive) {
         logger.info("Updating isActive status for user: {}", userName);
         repositoryManager.trainerRepo.updateIsActive(userName, isActive);
+    }
+
+    public Boolean authorize(String userName, String password) {
+        logger.info("Authorizing user with username: {}", userName);
+        return repositoryManager.trainerRepo.authorize(userName, password);
     }
 }
