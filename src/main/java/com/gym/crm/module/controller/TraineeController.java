@@ -3,6 +3,7 @@ package com.gym.crm.module.controller;
 import com.gym.crm.module.DTO.RegistrationResponseDTO;
 import com.gym.crm.module.service.impl.TraineeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +49,9 @@ public class TraineeController {
             @RequestParam Boolean isActive) {
         traineeService.updateTrainee(userName, firstName, lastName, dateOfBirth, address, isActive);
         Map<String, Object> response = traineeService.getTraineeProfile(userName);
+        if (response.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
         return ResponseEntity.ok(response);
     }
 

@@ -4,6 +4,7 @@ import com.gym.crm.module.DTO.RegistrationResponseDTO;
 import com.gym.crm.module.entity.Trainer;
 import com.gym.crm.module.service.impl.TrainerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -47,6 +48,9 @@ public class TrainerController {
             @RequestParam Boolean isActive) {
         trainerService.updateTrainer(userName, firstName, lastName, specialization, isActive);
         Map<String, Object> trainerProfile = trainerService.getTrainerProfile(userName);
+        if (trainerProfile.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
         return ResponseEntity.ok(trainerProfile);
     }
 
