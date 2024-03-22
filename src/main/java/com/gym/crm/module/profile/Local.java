@@ -6,5 +6,5 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 @Profile("local")
 public class Local{
-
+    //custom profile parameters
 }

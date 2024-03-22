@@ -6,5 +6,5 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 @Profile("prod")
 public class Prod {
-
+    //custom profile parameters
 }

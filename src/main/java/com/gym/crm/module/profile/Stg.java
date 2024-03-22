@@ -6,5 +6,5 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 @Profile("stg")
 public class Stg {
-
+    //custom profile parameters
 }

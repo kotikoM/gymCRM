@@ -1,17 +1,17 @@
 package com.gym.crm.module.repository;
 
 import com.gym.crm.module.entity.User;
+import com.gym.crm.module.exception.UserCreationException;
 import jakarta.persistence.TypedQuery;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@Slf4j
 public class UserRepo {
-    private static final Logger logger = LoggerFactory.getLogger(UserRepo.class);
 
     @Autowired
     protected SessionFactory sessionFactory;
@@ -33,12 +33,14 @@ public class UserRepo {
 
     public User createUser(User user) {
         try (Session session = sessionFactory.openSession()) {
-            logger.info("Creating new user: {}", user);
+            log.info("Creating new user: {}", user);
             session.beginTransaction();
             Integer userId = (Integer) session.save(user);
             session.getTransaction().commit();
-            logger.info("User created successfully with ID: {}", userId);
+            log.info("User created successfully with ID: {}", userId);
             return getUserById(userId);
+        } catch (RuntimeException e) {
+            throw new UserCreationException("User could not be created");
         }
     }
 
@@ -73,7 +75,7 @@ public class UserRepo {
 
     public void updatePassword(String userName, String newPassword) {
         try (Session session = sessionFactory.openSession()) {
-            logger.info("Updating password for user: {}", userName);
+            log.info("Updating password for user: {}", userName);
             session.beginTransaction();
             TypedQuery<User> query = session.createQuery(
                     "SELECT u FROM User u WHERE u.userName = :userName",
@@ -82,15 +84,15 @@ public class UserRepo {
             User user = query.getSingleResult();
             user.setPassword(newPassword);
             session.getTransaction().commit();
-            logger.info("Password updated successfully for user: {}", userName);
+            log.info("Password updated successfully for user: {}", userName);
         } catch (Exception e) {
-            logger.error("Error updating password for user: {}", userName, e);
+            log.error("Error updating password for user: {}", userName, e);
         }
     }
 
     public void updateIsActive(String userName, boolean isActive) {
         try (Session session = sessionFactory.openSession()) {
-            logger.info("Updating isActive status for user: {}", userName);
+            log.info("Updating isActive status for user: {}", userName);
             session.beginTransaction();
             TypedQuery<User> query = session.createQuery(
                     "SELECT u FROM User u WHERE u.userName = :userName",
@@ -100,24 +102,24 @@ public class UserRepo {
             User user = query.getSingleResult();
             user.setIsActive(isActive);
             session.getTransaction().commit();
-            logger.info("isActive status updated successfully for user: {}", userName);
+            log.info("isActive status updated successfully for user: {}", userName);
         } catch (Exception e) {
-            logger.error("Error updating isActive status for user: {}", userName, e);
+            log.error("Error updating isActive status for user: {}", userName, e);
         }
     }
 
     public Boolean checkPassword(String userName, String password) {
         try (Session session = sessionFactory.openSession()) {
-            logger.info("Checking password for user: {}", userName);
+            log.info("Checking password for user: {}", userName);
             TypedQuery<User> query = session.createQuery(
                     "SELECT u FROM User u WHERE u.userName = :userName",
                     User.class);
             query.setParameter("userName", userName);
             boolean passwordMatch = query.getSingleResult().getPassword().equals(password);
-            logger.info("Password check result for user {}: {}", userName, passwordMatch);
+            log.info("Password check result for user {}: {}", userName, passwordMatch);
             return passwordMatch;
         } catch (Exception e) {
-            logger.error("Error checking password for user: {}", userName, e);
+            log.error("Error checking password for user: {}", userName, e);
             return false;
         }
     }
