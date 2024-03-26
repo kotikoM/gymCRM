@@ -1,7 +1,7 @@
 package com.gym.crm.module.controller;
 
 import com.gym.crm.module.DTO.RegistrationResponseDTO;
-import com.gym.crm.module.service.impl.TraineeServiceImpl;
+import com.gym.crm.module.service.TraineeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ import java.util.Map;
 @RequestMapping("/trainee")
 public class TraineeController {
     @Autowired
-    private TraineeServiceImpl traineeService;
+    private TraineeService traineeService;
 
     @PostMapping("/register")
     public ResponseEntity<RegistrationResponseDTO> registerTrainee(

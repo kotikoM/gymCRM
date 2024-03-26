@@ -33,13 +33,6 @@ public class User {
     @Column(name = "is_active")
     private Boolean isActive;
 
-    public User(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.userName = generateUserName(firstName, lastName);
-        this.password = generatePassword();
-        this.isActive = true;
-    }
     public User(Integer id, String firstName, String lastName, Boolean isActive) {
         this.id = id;
         this.firstName = firstName;

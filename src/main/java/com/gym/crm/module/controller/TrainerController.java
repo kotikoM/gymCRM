@@ -2,7 +2,7 @@ package com.gym.crm.module.controller;
 
 import com.gym.crm.module.DTO.RegistrationResponseDTO;
 import com.gym.crm.module.entity.Trainer;
-import com.gym.crm.module.service.impl.TrainerServiceImpl;
+import com.gym.crm.module.service.TrainerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ import java.util.Map;
 @RequestMapping("/trainer")
 public class TrainerController {
     @Autowired
-    private TrainerServiceImpl trainerService;
+    private TrainerService trainerService;
 
     @PostMapping("/register")
     public ResponseEntity<RegistrationResponseDTO> registerTrainer(

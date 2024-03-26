@@ -1,7 +1,7 @@
 package com.gym.crm.module.controller;
 
 import com.gym.crm.module.entity.Training;
-import com.gym.crm.module.service.impl.TrainingServiceImpl;
+import com.gym.crm.module.service.TrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,7 +18,7 @@ import java.util.List;
 @RequestMapping("/training")
 public class TrainingController {
     @Autowired
-    private TrainingServiceImpl trainingService;
+    private TrainingService trainingService;
 
     @PostMapping
     public ResponseEntity<Training> createTraining(@RequestBody Training training) {

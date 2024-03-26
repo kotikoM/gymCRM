@@ -1,6 +1,6 @@
 package com.gym.crm.module.controller;
 
-import com.gym.crm.module.service.impl.UserServiceImpl;
+import com.gym.crm.module.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/user")
 public class UserController {
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
 
     @GetMapping("/login")
