@@ -1,6 +1,7 @@
 package com.gym.crm.module.service.impl;
 
 import com.gym.crm.module.DTO.RegistrationResponseDTO;
+import com.gym.crm.module.DTO.TraineeProfileDTO;
 import com.gym.crm.module.entity.Trainee;
 import com.gym.crm.module.entity.Trainer;
 import com.gym.crm.module.entity.User;
@@ -19,7 +20,7 @@ import java.util.Map;
 @Slf4j
 public class TraineeServiceImpl implements TraineeService {
 
-    
+
     @Autowired
     private RepositoryManager repositoryManager;
 
@@ -39,36 +40,24 @@ public class TraineeServiceImpl implements TraineeService {
         return repositoryManager.traineeRepo.getAllTrainees();
     }
 
-    public Trainee getTraineeById(Integer id, String userName, String password) {
-        if (authorize(userName, password)) {
-            log.info("Getting trainee by ID: {}", id);
-            return repositoryManager.traineeRepo.getTraineeById(id);
-        } else {
-            log.warn("Unauthorized access. User: {}", userName);
-            return null;
-        }
+    public Trainee getTraineeById(Integer id, String userName) {
+        log.info("Getting trainee by ID: {}", id);
+        return repositoryManager.traineeRepo.getTraineeById(id);
     }
 
 
-    public Trainee getTraineeByUserName(String userName, String password) {
-        if (authorize(userName, password)) {
-            log.info("Getting trainee by username: {}", userName);
-            return repositoryManager.traineeRepo.getTraineeByUserName(userName);
-        } else {
-            log.warn("Unauthorized access. User: {}", userName);
-            return null;
-        }
+    public Trainee getTraineeByUserName(String userName) {
+        log.info("Getting trainee by username: {}", userName);
+        return repositoryManager.traineeRepo.getTraineeByUserName(userName);
     }
 
-    public Map<String, Object> getTraineeProfile(String username) {
-        Map<String, Object> response = new HashMap<>();
+    public TraineeProfileDTO getTraineeProfile(String username) {
         User user = repositoryManager.traineeRepo.getUserProfile(username);
-        response.put("profile", user);
         List<Trainer> trainers = repositoryManager.trainerRepo.getTraineeTrainers(username);
-        response.put("trainers", trainers);
         log.info("Trainee profile information fetched");
-        return response;
+        return new TraineeProfileDTO(user, trainers);
     }
+
     public void updateTrainee(String userName, String firstName, String lastName, Date dateOfBirth, String address, Boolean isActive) {
         User user = repositoryManager.traineeRepo.getUserByUsername(userName);
         user.setFirstName(firstName);

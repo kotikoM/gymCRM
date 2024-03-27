@@ -17,6 +17,10 @@ public class TrainingServiceImpl implements TrainingService {
     @Autowired
     private RepositoryManager repositoryManager;
 
+    public Training createTraining(Training training) {
+        log.info("Creating new training: {}", training);
+        return repositoryManager.trainingRepo.createTrainer(training);
+    }
 
     public Training getTrainingById(Integer trainingId) {
         log.info("Getting training by ID: {}", trainingId);
@@ -40,10 +44,5 @@ public class TrainingServiceImpl implements TrainingService {
         log.info("Getting trainer trainings by criteria - UserName: {}, FromDate: {}, ToDate: {}, TrainerName: {}, TrainingTypeId: {}",
                 userName, fromDate, toDate, trainerName, trainingTypeId);
         return repositoryManager.trainingRepo.getTrainerTrainingsByCriteria(userName, fromDate, toDate, trainerName, trainingTypeId);
-    }
-
-    public Training createTraining(Training training) {
-        log.info("Creating new training: {}", training);
-        return repositoryManager.trainingRepo.createTrainer(training);
     }
 }

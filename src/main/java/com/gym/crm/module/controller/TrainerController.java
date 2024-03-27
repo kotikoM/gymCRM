@@ -1,6 +1,7 @@
 package com.gym.crm.module.controller;
 
 import com.gym.crm.module.DTO.RegistrationResponseDTO;
+import com.gym.crm.module.DTO.TrainerProfileDTO;
 import com.gym.crm.module.entity.Trainer;
 import com.gym.crm.module.service.TrainerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,8 @@ public class TrainerController {
     }
 
     @GetMapping("/profile")
-    public ResponseEntity<Map<String, Object>> getTrainerProfile(@RequestParam String username) {
-        Map<String, Object> response = trainerService.getTrainerProfile(username);
+    public ResponseEntity<TrainerProfileDTO> getTrainerProfile(@RequestParam String username) {
+        TrainerProfileDTO response = trainerService.getTrainerProfile(username);
         return ResponseEntity.ok(response);
     }
 
@@ -45,17 +46,14 @@ public class TrainerController {
     }
 
     @PutMapping
-    public ResponseEntity<Map<String, Object>> updateTrainerProfile(
+    public ResponseEntity<TrainerProfileDTO> updateTrainerProfile(
             @RequestParam String userName,
             @RequestParam String firstName,
             @RequestParam String lastName,
             @RequestParam Integer specialization,
             @RequestParam Boolean isActive) {
         trainerService.updateTrainer(userName, firstName, lastName, specialization, isActive);
-        Map<String, Object> trainerProfile = trainerService.getTrainerProfile(userName);
-        if (trainerProfile.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }
+        TrainerProfileDTO trainerProfile = trainerService.getTrainerProfile(userName);
         return ResponseEntity.ok(trainerProfile);
     }
 

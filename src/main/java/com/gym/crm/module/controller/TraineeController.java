@@ -1,6 +1,7 @@
 package com.gym.crm.module.controller;
 
 import com.gym.crm.module.DTO.RegistrationResponseDTO;
+import com.gym.crm.module.DTO.TraineeProfileDTO;
 import com.gym.crm.module.service.TraineeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,8 +35,8 @@ public class TraineeController {
     }
 
     @GetMapping("/profile")
-    public ResponseEntity<Map<String, Object>> getTraineeProfile(@RequestParam String username) {
-        Map<String, Object> response = traineeService.getTraineeProfile(username);
+    public ResponseEntity<TraineeProfileDTO> getTraineeProfile(@RequestParam String username) {
+        TraineeProfileDTO response = traineeService.getTraineeProfile(username);
         return ResponseEntity.ok(response);
     }
 
@@ -46,7 +47,7 @@ public class TraineeController {
     }
 
     @PutMapping
-    public ResponseEntity<Map<String, Object>> updateTraineeProfile(
+    public ResponseEntity<TraineeProfileDTO> updateTraineeProfile(
             @RequestParam String userName,
             @RequestParam String firstName,
             @RequestParam String lastName,
@@ -54,10 +55,7 @@ public class TraineeController {
             @RequestParam String address,
             @RequestParam Boolean isActive) {
         traineeService.updateTrainee(userName, firstName, lastName, dateOfBirth, address, isActive);
-        Map<String, Object> response = traineeService.getTraineeProfile(userName);
-        if (response.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }
+        TraineeProfileDTO response = traineeService.getTraineeProfile(userName);
         return ResponseEntity.ok(response);
     }
 
