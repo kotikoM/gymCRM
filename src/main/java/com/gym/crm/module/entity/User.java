@@ -1,6 +1,5 @@
 package com.gym.crm.module.entity;
 
-import java.security.SecureRandom;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -32,32 +31,4 @@ public class User {
     private String password;
     @Column(name = "is_active")
     private Boolean isActive;
-
-    public User(Integer id, String firstName, String lastName, Boolean isActive) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.userName = generateUserName(firstName, lastName);
-        this.password = generatePassword();
-        this.isActive = isActive;
-    }
-
-    private static String generatePassword() {
-        String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        StringBuilder password = new StringBuilder();
-
-        SecureRandom random = new SecureRandom();
-
-        for (int i = 0; i < 10; i++) {
-            int randomIndex = random.nextInt(characters.length());
-            char randomChar = characters.charAt(randomIndex);
-            password.append(randomChar);
-        }
-
-        return password.toString();
-    }
-
-    private String generateUserName(String firstName, String lastName) {
-        return firstName + "." + lastName;
-    }
 }

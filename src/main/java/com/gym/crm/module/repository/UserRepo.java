@@ -9,6 +9,9 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.security.SecureRandom;
+import java.util.List;
+
 @Repository
 @Slf4j
 public class UserRepo {
@@ -45,7 +48,10 @@ public class UserRepo {
     }
 
     public User createUser(Integer id, String firstName, String lastName, Boolean isActive) {
-        User user = new User(id, firstName, lastName, isActive);
+        String username = generateUsername(firstName, lastName);
+        String password = generatePassword();
+
+        User user = new User(id, firstName, lastName, username, password, isActive);
         return createUser(user);
     }
 
@@ -122,5 +128,36 @@ public class UserRepo {
             log.error("Error checking password for user: {}", userName, e);
             return false;
         }
+    }
+
+    private String generateUsername(String firstname, String lastname) {
+        try (Session session = sessionFactory.openSession()) {
+            TypedQuery<User> query = session.createQuery(
+                    "SELECT u FROM User u WHERE u.firstname = :firstname AND u.lastname = :lastname",
+                    User.class);
+            query.setParameter("firstname", firstname);
+            query.setParameter("lastname", lastname);
+            List<User> usersSameFirstLastName = query.getResultList();
+
+            return firstname +
+                    "." +
+                    lastname +
+                    usersSameFirstLastName.size();
+        }
+    }
+
+    private String generatePassword() {
+        String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        StringBuilder password = new StringBuilder();
+
+        SecureRandom random = new SecureRandom();
+
+        for (int i = 0; i < 10; i++) {
+            int randomIndex = random.nextInt(characters.length());
+            char randomChar = characters.charAt(randomIndex);
+            password.append(randomChar);
+        }
+
+        return password.toString();
     }
 }
