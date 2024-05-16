@@ -22,11 +22,11 @@ public class User {
     @Column(name = "id")
     private Integer id;
     @Column(name = "first_name")
-    private String firstName;
+    private String firstname;
     @Column(name = "last_name")
-    private String lastName;
+    private String lastname;
     @Column(name = "user_name")
-    private String userName;
+    private String username;
     @Column(name = "password")
     private String password;
     @Column(name = "is_active")

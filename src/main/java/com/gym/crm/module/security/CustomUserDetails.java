@@ -30,7 +30,7 @@ public class CustomUserDetails implements UserDetailsService {
         User user = userService.getByUsername(username);
         if (user != null) {
             return org.springframework.security.core.userdetails.User
-                    .withUsername(user.getUserName())
+                    .withUsername(user.getUsername())
                     .password(passwordEncoder().encode(user.getPassword()))
                     .roles("USER")
                     .build();

@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface TrainingService {
     Training createTraining(Training training);
-    Training getTrainingById(Integer trainingId);
-    List<Training> getAllTrainings();
     List<Training> getTraineeTrainingsByCriteria(String userName, Date fromDate, Date toDate, String trainerName, Integer trainingTypeId);
     List<Training> getTrainerTrainingsByCriteria(String userName, Date fromDate, Date toDate, String trainerName, Integer trainingTypeId);
 }

@@ -1,7 +1,6 @@
 package com.gym.crm.module.service.impl;
 
 import com.gym.crm.module.entity.User;
-import com.gym.crm.module.repository.RepositoryManager;
 import com.gym.crm.module.repository.UserRepo;
 import com.gym.crm.module.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -12,21 +11,26 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class UserServiceImpl implements UserService {
     @Autowired
-    private RepositoryManager repositoryManager;
+    private UserRepo userRepo;
 
     public User getByUsername(String username) {
-        return repositoryManager.userRepo.getUserByUsername(username);
+        return userRepo.findByUsername(username);
     }
 
     public void updatePassword(String userName, String oldPassword, String newPassword) {
-        if (repositoryManager.userRepo.checkPassword(userName, oldPassword)) {
+        User user = userRepo.findByUsername(userName);
+
+        if (checkPassword(userName, oldPassword)) {
             log.info("Updating user password");
-            repositoryManager.userRepo.updatePassword(userName, newPassword);
+            user.setPassword(newPassword);
+            userRepo.save(user);
+        } else {
+            log.warn("Wrong password");
         }
     }
 
     public Boolean checkPassword(String userName, String password) {
-        log.info("Checking user password");
-        return repositoryManager.userRepo.checkPassword(userName, password);
+        User user = userRepo.findByUsername(userName);
+        return user.getPassword().equals(password);
     }
 }

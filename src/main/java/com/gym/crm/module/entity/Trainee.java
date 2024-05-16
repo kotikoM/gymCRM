@@ -28,11 +28,4 @@ public class Trainee {
     private String address;
     @Column(name = "user_id")
     private Integer userId;
-
-    public Trainee(Date dateOfBirth, String address, Integer userId) {
-        this.id = null;
-        this.dateOfBirth = dateOfBirth;
-        this.address = address;
-        this.userId = userId;
-    }
 }

@@ -4,7 +4,6 @@ import com.gym.crm.module.DTO.RegistrationResponseDTO;
 import com.gym.crm.module.DTO.TraineeProfileDTO;
 import com.gym.crm.module.service.TraineeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 
 import java.util.Date;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/trainee")
@@ -61,7 +59,7 @@ public class TraineeController {
 
     @PatchMapping("/activation")
     public ResponseEntity<Void> activateTrainee(@RequestParam String username, @RequestParam Boolean isActive) {
-        traineeService.updateIsActive(username, isActive);
+        traineeService.updateActivity(username, isActive);
         return ResponseEntity.ok().build();
     }
 }

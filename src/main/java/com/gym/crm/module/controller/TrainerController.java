@@ -5,7 +5,6 @@ import com.gym.crm.module.DTO.TrainerProfileDTO;
 import com.gym.crm.module.entity.Trainer;
 import com.gym.crm.module.service.TrainerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/trainer")
@@ -59,7 +57,7 @@ public class TrainerController {
 
     @PatchMapping("/activation")
     public ResponseEntity<Void> activateTrainer(@RequestParam String username, @RequestParam Boolean isActive) {
-        trainerService.updateIsActive(username, isActive);
+        trainerService.updateActivity(username, isActive);
         return ResponseEntity.ok().build();
     }
 }

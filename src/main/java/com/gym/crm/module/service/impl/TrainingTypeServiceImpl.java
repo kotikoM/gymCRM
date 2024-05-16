@@ -2,7 +2,7 @@ package com.gym.crm.module.service.impl;
 
 
 import com.gym.crm.module.entity.TrainingType;
-import com.gym.crm.module.repository.RepositoryManager;
+import com.gym.crm.module.repository.TrainingTypeRepo;
 import com.gym.crm.module.service.TrainingTypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +14,10 @@ import java.util.List;
 @Slf4j
 public class TrainingTypeServiceImpl implements TrainingTypeService {
     @Autowired
-    private RepositoryManager repositoryManager;
+    private TrainingTypeRepo trainingTypeRepo;
 
     public List<TrainingType> getAllTrainingTypes() {
         log.info("Fetching all training types...");
-        return repositoryManager.trainingTypeRepo.getAllTrainingTypes();
+        return trainingTypeRepo.findAll();
     }
 }

@@ -25,9 +25,4 @@ public class Trainer {
     private Integer trainingTypeId;
     @Column(name = "user_id")
     private Integer userId;
-    public Trainer(Integer trainingTypeId, Integer userId) {
-        this.id = null;
-        this.trainingTypeId = trainingTypeId;
-        this.userId = userId;
-    }
 }
