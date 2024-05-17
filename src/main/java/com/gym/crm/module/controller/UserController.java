@@ -1,6 +1,10 @@
 package com.gym.crm.module.controller;
 
 import com.gym.crm.module.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +20,15 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
     @GetMapping("/login")
+    @Operation(summary = "User login",
+            description = "Logs in the user with the provided username and password.")
+    @ApiResponse(responseCode = "200", description = "Login successful",
+            content = @Content(mediaType = "text/plain",
+                    schema = @Schema(type = "string")))
+    @ApiResponse(responseCode = "401", description = "Unauthorized",
+            content = @Content(mediaType = "text/plain",
+                    schema = @Schema(type = "string")))
     public ResponseEntity<String> login(
             @RequestParam String username,
             @RequestParam String password) {
@@ -30,6 +41,9 @@ public class UserController {
     }
 
     @PutMapping("/password")
+    @Operation(summary = "Change password",
+            description = "Changes the password for the user with the provided username.")
+    @ApiResponse(responseCode = "200", description = "Password changed successfully")
     public ResponseEntity<Void> changeLogin(
             @RequestParam String username,
             @RequestParam String oldPassword,
